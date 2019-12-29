@@ -1,37 +1,66 @@
 using System;
+using System.Threading.Tasks;
 using Scripts.Hybrid;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Random = UnityEngine.Random;
 
 namespace Scripts.SceneManagement
 {
+    public struct LevelBounds
+    {
+        public Vector3 TopLeft;
+        public Vector3 TopRight;
+        public Vector3 BottomLeft;
+        public Vector3 BottomRight;
+        public LevelBounds(float delta)
+        {
+            TopLeft = new Vector3(0 - delta, 0f, 0 -delta);
+            TopRight = new Vector3(delta, 0f,  -delta);
+            BottomLeft = new Vector3(0-delta,0f,delta);
+            BottomRight = new Vector3(delta,0f,delta);
+        }
+        
+        public Vector2 TopLeft2D => new Vector2(TopLeft.x, TopLeft.z);
+        public Vector2 TopRight2D => new Vector2(TopRight.x, TopRight.z);
+        public Vector2 BottomLeft2D => new Vector2(BottomLeft.x, BottomLeft.z);
+        public Vector2 BottomRight2D => new Vector2(BottomRight.x, BottomRight.z);
+    }
+    
     public class CreateLevel : MonoBehaviour
     {
         private int levelSizeX => Bootstrap.settings.LevelSettings.LevelSizeX;
-        public int levelSizeY => Bootstrap.settings.LevelSettings.LevelSizeY;
-        public float tileSize => Bootstrap.settings.LevelSettings.TileSize;
+        private int levelSizeY => Bootstrap.settings.LevelSettings.LevelSizeY;
+        private float tileSize => Bootstrap.settings.LevelSettings.TileSize;
 
-        public GameObject[] floorTiles => Bootstrap.settings.LevelSettings.FloorTiles;
-        public GameObject[] wallTiles => Bootstrap.settings.LevelSettings.WallTiles;
-        public GameObject[] cornerTiles => Bootstrap.settings.LevelSettings.CornerTiles;
+        private GameObject[] floorTiles => Bootstrap.settings.LevelSettings.FloorTiles;
+        private GameObject[] wallTiles => Bootstrap.settings.LevelSettings.WallTiles;
+        private GameObject[] cornerTiles => Bootstrap.settings.LevelSettings.CornerTiles;
 
-        public GameObject[] blockingProps => Bootstrap.settings.LevelSettings.BlockingProps;
-        public GameObject[] obstacleProps => Bootstrap.settings.LevelSettings.ObstacleProps;
+        private GameObject[] blockingProps => Bootstrap.settings.LevelSettings.BlockingProps;
+        private GameObject[] obstacleProps => Bootstrap.settings.LevelSettings.ObstacleProps;
 
+        public LevelBounds levelBounds;
+        
         private Transform sceneRoot;
 
-        public void MakeLevel()
+#pragma warning disable 1998
+        public async Task MakeLevel()
         {
+#pragma warning restore 1998
             sceneRoot = gameObject.transform;
-            if (floorTiles.Length == 0)
+            levelBounds = new LevelBounds(tileSize/2);
+            
+            for (var i = 0; i < sceneRoot.transform.childCount; i++)
             {
-                throw new Exception("Floor Tiles must contain at least 1 element!");
+                var v = sceneRoot.transform.GetChild(i);
+                Destroy(v);
             }
+            Assert.AreNotEqual(0, floorTiles.Length);
 
             var pivot = new Vector3(tileSize * levelSizeX, 0f, tileSize * levelSizeY) / -2f +
                         new Vector3(tileSize / 2, 0, tileSize / 2);
-
             
             //Неизящный цикл расставления геометрии. Но в данном случае, это ради читаемости
             for (var i = 0; i < levelSizeY; i++)
@@ -46,24 +75,28 @@ namespace Scripts.SceneManagement
                     {
                         var cornerRot = Quaternion.Euler(new Vector3(0f, 270f, 0f));
                         Instantiate(cornerTiles[Random.Range(0, wallTiles.Length)], pos, cornerRot, sceneRoot);
+                        levelBounds.TopLeft += pos;
                         continue;
                     }
                     if (i == 0 && j == levelSizeX - 1)
                     {
                         var cornerRot = Quaternion.Euler(new Vector3(0f, 180f, 0f));
                         Instantiate(cornerTiles[Random.Range(0, wallTiles.Length)], pos, cornerRot, sceneRoot);
+                        levelBounds.TopRight += pos;
                         continue;
                     }
                     if (i == levelSizeY - 1 && j == levelSizeX - 1)
                     {
                         var cornerRot = Quaternion.Euler(new Vector3(0f, 90f, 0f));
                         Instantiate(cornerTiles[Random.Range(0, wallTiles.Length)], pos, cornerRot, sceneRoot);
+                        levelBounds.BottomRight = pos;
                         continue;
                     }
                     if (i == levelSizeY - 1 && j == 0)
                     {
                         var cornerRot = Quaternion.Euler(new Vector3(0f, 0f, 0f));
                         Instantiate(cornerTiles[Random.Range(0, wallTiles.Length)], pos, cornerRot, sceneRoot);
+                        levelBounds.BottomLeft += pos;
                         continue;
                     }
                     if (j == 0 || j == levelSizeX - 1)
