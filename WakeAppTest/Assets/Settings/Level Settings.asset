@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4cffd62a6b4c349da128eb1f353d9f, type: 3}
+  m_Name: Level Settings
+  m_EditorClassIdentifier: 
+  LevelSizeX: 4
+  LevelSizeY: 6
+  TileSize: 3
+  FloorTiles:
+  - {fileID: 7863580464199558259, guid: 2f08ea754d3779547b65bcba3d5a18b8, type: 3}
+  - {fileID: 4305517823457476218, guid: 413788d8d08994d4ba3a0814c35a01a8, type: 3}
+  WallTiles:
+  - {fileID: 1300367368799226, guid: 37e77a47218919148afc5a8cd332b7c0, type: 3}
+  CornerTiles:
+  - {fileID: 1414449268837394, guid: ab47af6ccd1970547885092ed420cbe2, type: 3}
+  BlockingProps: []
+  ObstacleProps: []

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec89740f5389409b93b9d3cfeed13340, type: 3}
+  m_Name: Game Settings
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 1947988760392850, guid: 25bf3489ba2d61744bccaa4c4c860ad6,
+    type: 3}
+  GunPrefab: {fileID: 8158556638984538572, guid: d6d0892f48d93d743b43380b4a7544dc,
+    type: 3}
+  PlayerSettings: {fileID: 11400000, guid: b30f0762c3d3a9943bc1ac8732f09736, type: 2}
+  LevelSettings: {fileID: 11400000, guid: ffb235b4afc3d2d4e8e5f7db03e48cd2, type: 2}

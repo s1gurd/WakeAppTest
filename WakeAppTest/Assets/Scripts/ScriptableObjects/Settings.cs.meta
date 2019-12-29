@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ec89740f5389409b93b9d3cfeed13340
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PlayerPrefab: {instanceID: 0}
+  - GunPrefab: {instanceID: 0}
+  - PlayerSettings: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
