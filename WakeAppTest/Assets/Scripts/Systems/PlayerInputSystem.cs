@@ -1,5 +1,4 @@
 using Scripts.Components;
-using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
@@ -51,7 +50,6 @@ namespace Scripts.Systems
             moveAction.Disable();
         }
 
-        [BurstCompile]
         private struct PlayerInputJob : IJobForEachWithEntity<PlayerInputData>
         {
             public EntityCommandBuffer.Concurrent Ecb;
@@ -68,12 +66,10 @@ namespace Scripts.Systems
                 if (Walking)
                 {
                     Ecb.RemoveComponent<AimingData>(index, entity);
-                    Ecb.AddComponent<WalkingData>(index, entity, new WalkingData());
                 }
                 else
                 {
-                    Ecb.RemoveComponent<WalkingData>(index, entity);
-                    Ecb.AddComponent<AimingData>(index, entity, new AimingData());
+                    Ecb.AddComponent(index, entity, new AimingData());
                 }
             }
         }

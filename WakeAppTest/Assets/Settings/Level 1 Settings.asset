@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f4cffd62a6b4c349da128eb1f353d9f, type: 3}
-  m_Name: Level Settings
+  m_Name: Level 1 Settings
   m_EditorClassIdentifier: 
   LevelSizeX: 6
   LevelSizeY: 10
@@ -24,3 +24,10 @@ MonoBehaviour:
   - {fileID: 3515791586142954707, guid: 802d6019a6db1c743b5e678abc9f91c8, type: 3}
   BlockingProps: []
   ObstacleProps: []
+  PlayerSpawningOffset: 3
+  Enemies:
+  - Enemy: {fileID: 1432500343079968, guid: 6c01462a284c340449f1358fc38df3e4, type: 3}
+    Count: 5
+  EnemyZoneHeight: 12
+  LevelCameraSettings: {fileID: 11400000, guid: fbae3a02b11078f44b4ef1d546b73c4b,
+    type: 2}

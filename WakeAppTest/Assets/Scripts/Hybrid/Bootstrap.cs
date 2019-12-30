@@ -29,11 +29,15 @@ namespace Scripts.Hybrid
             }
             setter.SetDistance();
             
-            var player = Object.Instantiate(settings.PlayerPrefab);
+            var player = Object.Instantiate(settings.PlayerPrefab,
+                new Vector3(0f, 0f, Level.levelBounds.TopLeft.z + settings.LevelSettings.PlayerSpawningOffset),
+                Quaternion.LookRotation(Vector3.forward));
             Assert.IsNotNull(player);
             
             var gun = Object.Instantiate(settings.GunPrefab, player.GetComponent<PlayerObject>().GunPivot, false);
             Assert.IsNotNull(gun);
+            
+            setter.MoveCamera();
         }
         
     }

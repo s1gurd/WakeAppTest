@@ -10,7 +10,7 @@ namespace Scripts.SceneManagement
 
         private void Start()
         {
-            playerInputSystem = World.DefaultGameObjectInjectionWorld.GetOrCreateSystem<PlayerInputSystem>();
+            playerInputSystem = World.Active.GetOrCreateSystem<PlayerInputSystem>();
         }
 
         private void FixedUpdate()

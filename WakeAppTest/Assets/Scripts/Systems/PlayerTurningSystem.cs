@@ -32,7 +32,7 @@ namespace Scripts.Systems
                 var Rot = rigidBody.rotation;
                 var newRot = Quaternion.LookRotation(Vector3.Normalize(dir));
                 if (newRot == Rot) return;
-                rigidBody.MoveRotation(Quaternion.Lerp(Rot, newRot, Time.DeltaTime * turningSpeed));
+                rigidBody.MoveRotation(Quaternion.Lerp(Rot, newRot, Time.deltaTime * turningSpeed));
             });
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Scripts.Hybrid;
+using Scripts.ScriptableObjects;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -21,11 +22,6 @@ namespace Scripts.SceneManagement
             BottomLeft = new Vector3(0-delta,0f,delta);
             BottomRight = new Vector3(delta,0f,delta);
         }
-        
-        public Vector2 TopLeft2D => new Vector2(TopLeft.x, TopLeft.z);
-        public Vector2 TopRight2D => new Vector2(TopRight.x, TopRight.z);
-        public Vector2 BottomLeft2D => new Vector2(BottomLeft.x, BottomLeft.z);
-        public Vector2 BottomRight2D => new Vector2(BottomRight.x, BottomRight.z);
     }
     
     public class CreateLevel : MonoBehaviour
@@ -41,6 +37,11 @@ namespace Scripts.SceneManagement
         private GameObject[] blockingProps => Bootstrap.settings.LevelSettings.BlockingProps;
         private GameObject[] obstacleProps => Bootstrap.settings.LevelSettings.ObstacleProps;
 
+        private EnemyType[] enemies => Bootstrap.settings.LevelSettings.Enemies;
+        private float enemyZone => Bootstrap.settings.LevelSettings.EnemyZoneHeight;
+
+        public LevelCameraSettings CameraSettings => Bootstrap.settings.LevelSettings.LevelCameraSettings;
+        
         public LevelBounds levelBounds;
         
         private Transform sceneRoot;
@@ -111,6 +112,36 @@ namespace Scripts.SceneManagement
                         var wallRot = Quaternion.Euler(new Vector3(0f, wallRotY, 0f));
                         Instantiate(wallTiles[Random.Range(0, wallTiles.Length)], pos, wallRot, sceneRoot);
                     }
+                }
+            }
+
+            var maxY = levelBounds.BottomLeft.z;
+            var minY = maxY - enemyZone;
+            var maxX = levelBounds.BottomLeft.x;
+            var minX = levelBounds.BottomRight.x;
+            foreach (var enemyType in enemies)
+            {
+                var pos = new Vector3();
+                for (var i = 0; i < enemyType.Count; i++)
+                {
+                    if (i % 2 != 0)
+                    {
+                        pos.x = -pos.x;
+                    }
+                    else
+                    {
+                        if (i == enemyType.Count - 1)
+                        {
+                            pos.x = 0;
+                        }
+                        else
+                        {
+                            pos.x = Random.Range(minX, maxX);
+                        }
+                        pos.z = Random.Range(minY, maxY);
+                    }
+                    pos.y = 0f;
+                    Instantiate(enemyType.Enemy, pos, Quaternion.LookRotation(Vector3.back));
                 }
             }
         }

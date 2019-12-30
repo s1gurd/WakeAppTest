@@ -15,7 +15,6 @@ namespace Scripts.Systems
             query = GetEntityQuery(
                 ComponentType.ReadOnly<Transform>(),
                 ComponentType.ReadOnly<PlayerInputData>(),
-                ComponentType.ReadOnly<WalkingData>(),
                 ComponentType.Exclude<AimingData>(),
                 ComponentType.ReadOnly<Rigidbody>());
         }
@@ -23,11 +22,12 @@ namespace Scripts.Systems
         protected override void OnUpdate()
         {
             var speed = Bootstrap.settings.PlayerSettings.MoveSpeed;
+            var movementType = Bootstrap.settings.PlayerSettings.MovementType;
 
             Entities.With(query).ForEach(
                 (Entity entity, Rigidbody rigidBody, ref PlayerInputData input) =>
                 {
-                    var movement = speed * Time.DeltaTime * Vector3.Normalize(new Vector3(input.Move.x, 0f, input.Move.y));
+                    var movement = speed * Time.deltaTime * Vector3.Normalize(new Vector3(input.Move.x, 0f, input.Move.y));
                     
                     var newPos = rigidBody.position + movement;
                     rigidBody.MovePosition(newPos);
